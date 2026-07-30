@@ -1,0 +1,20 @@
+# dependências e build
+node_modules/
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# segredos — o .env tem o client secret do App Registration
+.env
+.env.local
+.env*.local
+
+# snapshot REAL das listas do SharePoint: contém NFs, preços de fornecedor,
+# condições de pagamento e nomes de pessoas. Nunca versionar.
+src/lib/seed.real.ts
+
+# sistema / editor
+.DS_Store
+Thumbs.db
