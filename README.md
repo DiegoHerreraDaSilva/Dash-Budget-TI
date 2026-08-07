@@ -65,6 +65,28 @@ npm run start:lan
 Nota: um `GET /_next/webpack-hmr 404` no log é normal — este projeto usa
 Turbopack, que tem outro canal de HMR. Não é a causa de nada.
 
+### Restringir por IP (`start:secure`)
+
+Sem proxy reverso na frente, nem o firewall do Windows nem um middleware do
+Next resolvem isso de forma confiável: o firewall é fácil de desconfigurar sem
+querer, e headers como `X-Forwarded-For` não significam nada sem um proxy que
+os popule — qualquer cliente pode mandar o header que quiser.
+
+[server.js](server.js) resolve isso na camada de aplicação: um servidor HTTP
+customizado que envolve o Next e, antes de repassar cada requisição, lê o IP
+**da conexão TCP** (`req.socket.remoteAddress`) — não falsificável por header —
+contra a lista em `ALLOWED_IPS` (`.env`, aceita IP individual e faixa CIDR).
+Fora da lista, responde `403` sem chamar o Next.
+
+```bash
+npm run build
+npm run start:secure
+```
+
+Sem `ALLOWED_IPS` definida, libera qualquer IP — não muda o comportamento atual
+enquanto a lista não for configurada. No Windows, `build-servidor.bat` e
+`iniciar-servidor.bat` automatizam o build e a subida deste modo.
+
 ## Rodar
 
 O painel sobe na **porta 3001** (a 3000 fica livre para outros projetos):
