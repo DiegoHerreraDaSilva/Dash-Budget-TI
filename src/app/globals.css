@@ -48,7 +48,8 @@
 }
 
 .dark {
-  --bg: #0f1317;
+  /* slate-950 do Tailwind — mesmo fundo do app de Salas de Reunião */
+  --bg: #020617;
   --bg-glow-a: rgba(15, 168, 164, 0.14);
   --bg-glow-b: rgba(100, 120, 238, 0.1);
   --surface: #1c2127;
