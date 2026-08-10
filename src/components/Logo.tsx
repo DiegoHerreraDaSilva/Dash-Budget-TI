@@ -1,8 +1,9 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
+import { useIsDark } from "./charts/palette";
 
-/** Marca desenhada — fallback se /public/logo.png nao carregar. */
+/** Marca desenhada — fallback se os arquivos de logo nao carregarem. */
 function SchwabenMark() {
   return (
     <div className="flex flex-col leading-none">
@@ -21,10 +22,14 @@ function SchwabenMark() {
 
 export function Logo() {
   const [err, setErr] = useState(false);
+  const dark = useIsDark();
   if (err) return <SchwabenMark />;
   return (
     <img
-      src="/logo.png"
+      // logo.png tem o texto em branco (para o header escuro); logo-light.png
+      // tem o texto em cinza-escuro (para o header claro) — sem isso o texto
+      // branco fica invisivel sobre o fundo claro.
+      src={dark ? "/logo.png" : "/logo-light.png"}
       alt="Schwaben Engineering"
       style={{ height: 44, width: "auto", maxWidth: 200, objectFit: "contain" }}
       onError={() => setErr(true)}
